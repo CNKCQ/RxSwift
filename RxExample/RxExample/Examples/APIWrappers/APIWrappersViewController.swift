@@ -139,7 +139,7 @@ class APIWrappersViewController: ViewController {
 
         // also test two way binding
         let textValue = Variable("")
-        _ = textField.rx.textInput <-> textValue
+        (textField.rx.textInput <-> textValue).disposed(by: disposeBag)
 
         textValue.asObservable()
             .subscribe(onNext: { [weak self] x in
@@ -161,7 +161,7 @@ class APIWrappersViewController: ViewController {
 
         // also test two way binding
         let textViewValue = Variable("")
-        _ = textView.rx.textInput <-> textViewValue
+        (textView.rx.textInput <-> textViewValue).disposed(by: disposeBag)
 
         textViewValue.asObservable()
             .subscribe(onNext: { [weak self] x in
@@ -185,6 +185,7 @@ class APIWrappersViewController: ViewController {
             .subscribe(onNext: { x in
                 print("rx.didFailWithError \(x)")
             })
+            .disposed(by: disposeBag)
         
         manager.rx.didChangeAuthorizationStatus
             .subscribe(onNext: { status in
